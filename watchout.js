@@ -36,7 +36,7 @@ for(var i = 0; i < gameOptions.numEnemies; i++) {
   enemy.id = i;
   enemy.x = gameOptions.width * Math.random();
   enemy.y = gameOptions.height * Math.random();
-  enemy.r = 5;
+  enemy.r = 10;
   enemies.push(enemy);
 }
 
@@ -65,17 +65,23 @@ var currentEnemies = gameBoard.selectAll('circle.enemy')
 
 //add enemies to board
 currentEnemies.enter()
-  .append('svg:circle')
+  .append('svg:image')
     .attr('class', 'enemy')
-    .attr('cx', function(d){return d.x;})
-    .attr('cy', function(d){return d.y;})
-    .attr('r', function(d){return d.r;});
+    // .attr('cx', function(d){return d.x;})
+    // .attr('cy', function(d){return d.y;})
+    .attr('r', function(d){return d.r;})
+    // .append('svg:image')
+    .attr('width', function(d){return d.r*2;})
+    .attr('height', function(d){return d.r*2;})
+    .attr('x', function(d){return d.x;})
+    .attr('y', function(d){return d.y;})
+    .attr('xlink:href', 'shuriken.png');
 
 //create checkCollisions
 var checkCollisions = function(enemy, updateScore) {
   var radiusSum = enemy.attr('r') + myself.r;
-  var xDiff = enemy.attr('cx') - myself.x;
-  var yDiff = enemy.attr('cy') - myself.y;
+  var xDiff = enemy.attr('x') - myself.x;
+  var yDiff = enemy.attr('y') - myself.y;
 
   var separation = Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff,2));
   if (separation < radiusSum){
@@ -92,10 +98,11 @@ var tweenWithCollisions = function(){
 var updateScore = function() {
   if(gameOptions.highScore < gameOptions.score){
     gameOptions.highScore = gameOptions.score;
-    gameOptions.score = 0;
     highScoreSelection.text(gameOptions.highScore);
   }
+  gameOptions.score = 0;
   gameOptions.collisions++;
+  currentScore.text(gameOptions.score);
   collisions.text(gameOptions.collisions);
 };
 
@@ -103,14 +110,14 @@ var updateScore = function() {
 var move = function(){
 currentEnemies
   .transition()
-  .duration(1000)
+  .duration(2000)
   .tween('custom', tweenWithCollisions)
-  .attr('cx', function(d){return Math.random() * gameOptions.width;})
-  .attr('cy', function(d){return Math.random() * gameOptions.height;});
+  .attr('x', function(d){return Math.random() * gameOptions.width;})
+  .attr('y', function(d){return Math.random() * gameOptions.height;});
 };
 
 
-setInterval(function(){move()}, 1500);
+setInterval(function(){move();}, 2000);
 setInterval(function() {
   gameOptions.score++;
   currentScore.text(gameOptions.score);

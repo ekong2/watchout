@@ -2,3 +2,18 @@
 
 /* Note: an asteroid image is included in this repo.
 Feel free to use it if you like. */
+
+@-webkit-keyframes spinnerRotate
+{
+    from{-webkit-transform:rotate(0deg);}
+    to{-webkit-transform:rotate(360deg);}
+}
+
+.enemy{
+    -webkit-animation-name: spinnerRotate;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    transform-origin: 50% 50% ;
+}
+
