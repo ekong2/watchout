@@ -111,3 +111,7 @@ currentEnemies
 
 
 setInterval(function(){move()}, 1500);
+setInterval(function() {
+  gameOptions.score++;
+  currentScore.text(gameOptions.score);
+}, 50);
